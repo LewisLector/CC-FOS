@@ -1,0 +1,74 @@
+-- F.OS by Falcon303 and Marz. All rights reserved. Copyright (c) 2015.
+
+-- Variable declaration.
+width, height = term.getSize()
+
+
+-- Functions.
+
+function launch_os()
+	shell.run("OS/scripts/UI/logon")
+end
+
+
+
+-- Methods.
+
+function loadAPI(path)
+	local files = fs.list(path)
+	for _, x in pairs(files) do
+		if not fs.isDir(path .. "/" .. x) then
+			os.loadAPI(path .. "/" .. x)
+			print("-loaded " .. x)
+		else
+			loadAPI(path .. "/" .. x)
+		end
+	end
+end
+
+-- Initialization.
+
+term.setCursorPos(1,1)
+term.clear()
+print("F.OS by Falcon303 and Marz. All rights reserved. Copyright (c) 2015.")
+print()
+print("Checking for updates...")
+shell.run("pastebin run icG5n4Zq") -- Online updater. Maintained and updated regularly.
+print()
+print("Loading APIs")
+loadAPI("OS/APIs")
+print()
+
+-- Is user a development superadmin?
+
+file = fs.open("OS/settings/superadmin", "r")
+superadmin = file.readAll()
+if superadmin == "true" then
+	superadmin = true
+else
+	superadmin = false
+end
+file.close()
+if superadmin then 
+  print("Logging in as superadmin.")
+else
+  print("Logging in as user.")
+end
+
+sleep(1.5)
+
+shell.run("OS/scripts/security/secpost")
+
+tx.clear()
+
+if pcall(launch_os) then
+	
+else
+	tx.clear()
+	print()
+	print("A fatal error occurred.")
+	sleep(5)
+	os.reboot()
+end
+--
+
