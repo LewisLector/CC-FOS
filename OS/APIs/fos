@@ -36,22 +36,22 @@ function checkTextboxBounds(x_pos, y_pos)
 	end
 end
 
+-- this may break, haven't tested. Yet. Need my big PC.
+
 function updateEntered(add)
 	if textboxes ~= nil then
 		for y, z in pairs(textboxes) do
-			if z["selected"] == true and string.len(z["entered"]) <= z["max_chars"] then
-				if keys.getName(add) == "backspace" then
-					if z["entered"] ~= "" then
-						z["entered"] = string.sub(z["entered"], 1, -1)
-						return true
-					end
-					return false
-					
-				else
-					z["entered"] = z["entered"] .. keys.getName(add)
+			if z["selected"] == true and string.len(z["entered"]) > 0 and keys.getName(add) == "backspace" then
+				if z["entered"] ~= "" then
+					z["entered"] = string.sub(z["entered"], 1, -1)
 					return true
 				end
+				return false
+			elseif z["selected"] == true and string.len(z["entered"]) < z["max_chars"] then
+				z["entered"] = z["entered"] .. keys.getName(add)
+				return true
 			end
+			return false
 		end
 	end
 	return false
