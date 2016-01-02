@@ -1,0 +1,70 @@
+-- F.OS API
+textboxes = {}
+
+function createTextbox(start_x, end_x, y_pos, name, max_chars)
+	table.insert(textboxes, {["start_x"] = start_x, ["end_x"] = end_x, ["y_pos"] = y_pos, ["name"] = name, ["entered"] = "", ["selected"] = false, ["max_chars"] = max_chars})
+end
+
+function deleteTextbox(name)
+	if textboxes ~= nil then
+		for i, x in pairs(textboxes) do
+			if x["name"].lower() == name.lower() then
+				table.remove(textboxes, i)
+				return true
+			end
+		end
+		return false
+	else
+		return false
+	end
+end
+
+function checkTextboxBounds(x_pos, y_pos)
+	if textboxes ~= nil then
+		for i, x in pairs(textboxes) do
+			if x_pos >= x["start_x"] and x_pos <= x["end_x"] and y_pos == x["y_pos"] then
+				x["selected"] = true
+				return true
+			else
+				x["selected"] = false
+				return false
+			end
+		end
+		return false
+	else
+		return false
+	end
+end
+
+function updateEntered(add)
+	if textboxes ~= nil then
+		for y, z in pairs(textboxes) do
+			if z["selected"] == true and string.len(z["entered"]) <= z["max_chars"] then
+				if keys.getName(add) == "backspace" then
+					if z["entered"] ~= "" then
+						z["entered"] = string.sub(z["entered"], 1, -1)
+						return true
+					end
+					return false
+					
+				else
+					z["entered"] = z["entered"] .. keys.getName(add)
+					return true
+				end
+			end
+		end
+	end
+	return false
+end
+
+function getTextboxData(name)
+	if textboxes ~= nil then
+		for i, x in pairs(textboxes) do
+			if x["name"] == name then
+				return x["entered"]
+			end
+		end
+		return false
+	end
+	return false
+end

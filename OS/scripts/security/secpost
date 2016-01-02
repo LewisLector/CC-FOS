@@ -1,0 +1,32 @@
+if not superadmin then
+	loadline = "---------------------------------------------------"
+	tx.clear()
+	print(loadline)
+	print("            We're just making you safe         ")
+	print(loadline)
+	print("Replacing Function shell.run...")
+	function shell.run() end
+	sleep(1)
+	print("Replacing Function fs.delete...")
+	function fs.delete() end
+	sleep(1)
+	print("Attempting to unload ShellAPI...")
+	print()
+	print()
+	print()
+	os.unloadAPI("shell")
+	sleep(1)
+	print(" ")
+	print(" ")
+	print(" ")
+	print(" ")
+	print(" ")
+	print(" ")
+	print(" ")
+	print(" ")
+	print(" ")
+else
+	print()
+	print("Superadmin detected. Ignoring security.")
+	sleep(0.5)
+end

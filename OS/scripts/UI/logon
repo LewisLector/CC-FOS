@@ -1,0 +1,58 @@
+-- Variables
+screen = "wait_screen"
+
+-- Functions
+function wait_screen()
+	tx.box(1, width, 1, height, colors.cyan)
+	tx.bc(colors.cyan)
+	local background = paintutils.loadImage("OS/images/stock/login")
+	paintutils.drawImage(background, -2, 1)
+	tx.set(width / 2 - 4, height / 2)
+	tx.bc(colors.gray)
+	write("            ")
+	fos.createTextbox(21, 32, 9, "test", 12)
+end
+
+-- Methods
+
+function main()
+	while true do
+		local event, arg1, arg2, arg3, arg4 = os.pullEvent()
+		
+		if event == "mouse_click" then
+			
+			tx.set(1, height)
+			write("x: " .. arg2 .. ", y: " .. arg3)
+			
+			if fos.checkTextboxBounds(arg2, arg3) then
+				tx.set(1,1)
+				write("selected")
+			else
+				tx.set(1,1)
+				write("nothing.")
+			end
+		
+		elseif event == "key" then
+			tx.set(1,2)
+			write(tostring(keys.getName(arg1)))
+			fos.updateEntered(arg1)
+		end
+		
+		if screen == "wait_screen" then
+			local input = fos.getTextboxData("test") 
+			if input ~= false then
+				tx.set(21,9)
+				write(input)
+			else
+				write("            ")
+			end
+		end
+		
+	end
+end
+
+-- Initialization
+tx.clear()
+tx.set(1,1)
+wait_screen()
+main()
