@@ -68,3 +68,11 @@ function getTextboxData(name)
 	end
 	return false
 end
+
+function obtain(url, location)
+	if url ~= nil and location ~= nil then
+		shell.run("pastebin get " .. url .. " " .. location)
+		return true
+	end
+	return false
+end
